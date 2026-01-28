@@ -18,6 +18,7 @@
   }
 
   .container {
+    position: relative;
     background: white;
     width: 90%;
     max-width: 420px;
@@ -40,6 +41,7 @@
     border: none;
     cursor: pointer;
     display: block;
+    position: relative;
   }
 
   .yes {
@@ -96,58 +98,70 @@
 </div>
 
 <script>
-  let step = 0;
+let step = 0;
 
-  const questions = [
-    "Do you like surprises? 🎁",
-    "Do you believe in destiny? ✨",
-    "Would you go on a cute date with me? 🍕🎬",
-    "Do you like the person who made this page? 😏",
-    "Final question… 💖 Will you be my Valentine?"
-  ];
+const questions = [
+  "Do you like surprises? 🎁",
+  "Do you believe in destiny? ✨",
+  "Would you go on a cute date with me? 🍕🎬",
+  "Do you like the person who made this page? 😏",
+  "Final question… 💖 Will you be my Valentine?"
+];
 
-  function yes() {
-    step++;
-    updateProgress();
-    createHeart();
+const noBtn = document.querySelector(".no");
 
-    // 🔁 RESET "No" button every time
-    const noBtn = document.querySelector(".no");
-    noBtn.innerText = "No 🙃";
-    noBtn.style.transform = "translate(0, 0)";
+// Store original position of No button
+let noBtnOriginalStyle = {
+  left: noBtn.style.left || "0px",
+  top: noBtn.style.top || "0px",
+  transform: "translate(0, 0)"
+};
 
-    if (step < questions.length) {
-      document.getElementById("question").innerText = questions[step];
-    } else {
-      document.querySelector(".container").innerHTML = `
-        <h2>YAYYY!!! 💕</h2>
-        <p>You just made my day ❤️</p>
-        <p>See you on our date 😘</p>
-      `;
-      for (let i = 0; i < 30; i++) createHeart();
-    }
+function yes() {
+  step++;
+  updateProgress();
+  createHeart();
+
+  // Reset No button text and position
+  resetNoButton();
+
+  if (step < questions.length) {
+    document.getElementById("question").innerText = questions[step];
+  } else {
+    document.querySelector(".container").innerHTML = `
+      <h2>YAYYY!!! 💕</h2>
+      <p>You just made my day ❤️</p>
+      <p>See you on our date 😘</p>
+    `;
+    for (let i = 0; i < 30; i++) createHeart();
   }
+}
 
-  function no() {
-    const btn = document.querySelector(".no");
-    btn.innerText = "Try again 😜";
-    btn.style.transform =
-      `translate(${Math.random()*80 - 40}px, ${Math.random()*40 - 20}px)`;
-  }
+function no() {
+  noBtn.innerText = "Try again 😜";
+  noBtn.style.transform = 
+    `translate(${Math.random()*80 - 40}px, ${Math.random()*40 - 20}px)`;
+}
 
-  function updateProgress() {
-    document.getElementById("bar").style.width =
-      (step / questions.length) * 100 + "%";
-  }
+// Reset No button text and position
+function resetNoButton() {
+  noBtn.innerText = "No 🙃";
+  noBtn.style.transform = "translate(0, 0)";
+}
 
-  function createHeart() {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerText = "💖";
-    heart.style.left = Math.random() * 100 + "vw";
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 4000);
-  }
+function updateProgress() {
+  document.getElementById("bar").style.width =
+    (step / questions.length) * 100 + "%";
+}
+
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerText = "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 4000);
+}
 </script>
 
 </body>
