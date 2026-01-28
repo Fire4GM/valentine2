@@ -1,124 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Be My Valentine 💖</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine Game 💘</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      overflow: hidden;
-    }
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
 
-    .card {
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
+  .container {
+    background: white;
+    width: 90%;
+    max-width: 420px;
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+  }
 
-    h1 {
-      color: #ff4d6d;
-    }
+  h2 {
+    color: #ff3e6c;
+  }
 
-    button {
-      padding: 12px 24px;
-      font-size: 18px;
-      border-radius: 30px;
-      border: none;
-      cursor: pointer;
-      margin: 10px;
-    }
+  button {
+    width: 80%;
+    padding: 12px;
+    margin: 10px auto;
+    font-size: 16px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    display: block;
+  }
 
-    #yes {
-      background: #ff4d6d;
-      color: white;
-    }
+  .yes {
+    background: #ff3e6c;
+    color: white;
+  }
 
-    #no {
-      background: #ccc;
-      position: absolute;
-    }
+  .no {
+    background: #eee;
+  }
 
-    #message {
-      display: none;
-      margin-top: 20px;
-      font-size: 20px;
-      color: #ff4d6d;
-    }
+  .progress {
+    height: 10px;
+    background: #eee;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 15px;
+  }
 
-    .heart {
-      position: absolute;
-      font-size: 24px;
-      animation: float 3s linear infinite;
-    }
+  .bar {
+    height: 100%;
+    width: 0%;
+    background: #ff3e6c;
+    transition: width 0.5s;
+  }
 
-    @keyframes float {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(-600px); opacity: 0; }
+  .heart {
+    position: fixed;
+    bottom: 0;
+    font-size: 22px;
+    animation: floatUp 4s linear forwards;
+  }
+
+  @keyframes floatUp {
+    to {
+      transform: translateY(-700px);
+      opacity: 0;
     }
-  </style>
+  }
+</style>
 </head>
 
 <body>
 
-  <div class="card">
-    <h1>Will you be my Valentine? 💘</h1>
-    <button id="yes">Yes 💖</button>
-    <button id="no">No 🙃</button>
+<div class="container">
+  <div class="progress"><div class="bar" id="bar"></div></div>
+  <h2 id="question">Do you like surprises? 🎁</h2>
 
-    <div id="message">
-      💕 Yay!!!  
-      <br><br>
-      You just made my day ❤️  
-      <br>
-      See you on our date 😘
-    </div>
-  </div>
+  <button class="yes" onclick="yes()">Yes 😍</button>
+  <button class="no" onclick="no()">No 🙃</button>
+</div>
 
-  <script>
-    const noBtn = document.getElementById("no");
-    const yesBtn = document.getElementById("yes");
-    const msg = document.getElementById("message");
+<script>
+  let step = 0;
+  const questions = [
+    "Do you like surprises? 🎁",
+    "Do you believe in destiny? ✨",
+    "Would you go on a cute date with me? 🍕🎬",
+    "Do you like someone who made this page? 😏",
+    "Final question… 💖 Will you be my Valentine?"
+  ];
 
-    noBtn.addEventListener("mouseover", () => {
-      const x = Math.random() * (window.innerWidth - 100);
-      const y = Math.random() * (window.innerHeight - 50);
-      noBtn.style.left = `${x}px`;
-      noBtn.style.top = `${y}px`;
-    });
+  function yes() {
+    step++;
+    updateProgress();
+    createHeart();
 
-    yesBtn.addEventListener("click", () => {
-      msg.style.display = "block";
-      yesBtn.style.display = "none";
-      noBtn.style.display = "none";
-      launchHearts();
-    });
-
-    function launchHearts() {
-      for (let i = 0; i < 30; i++) {
-        const heart = document.createElement("div");
-        heart.className = "heart";
-        heart.innerText = "💖";
-        heart.style.left = Math.random() * window.innerWidth + "px";
-        heart.style.bottom = "0px";
-        heart.style.animationDuration = (Math.random() * 2 + 2) + "s";
-        document.body.appendChild(heart);
-
-        setTimeout(() => heart.remove(), 3000);
-      }
+    if (step < questions.length) {
+      document.getElementById("question").innerText = questions[step];
+    } else {
+      document.querySelector(".container").innerHTML = `
+        <h2>YAYYY!!! 💕</h2>
+        <p>You just made my day ❤️</p>
+        <p>See you on our date 😘</p>
+      `;
+      for (let i = 0; i < 25; i++) createHeart();
     }
-  </script>
+  }
+
+  function no() {
+    const btn = event.target;
+    btn.innerText = "Try again 😜";
+    btn.style.transform = `translate(${Math.random()*80 - 40}px, ${Math.random()*40 - 20}px)`;
+  }
+
+  function updateProgress() {
+    document.getElementById("bar").style.width =
+      (step / questions.length) * 100 + "%";
+  }
+
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 4000);
+  }
+</script>
 
 </body>
 </html>
