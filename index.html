@@ -85,7 +85,10 @@
 <body>
 
 <div class="container">
-  <div class="progress"><div class="bar" id="bar"></div></div>
+  <div class="progress">
+    <div class="bar" id="bar"></div>
+  </div>
+
   <h2 id="question">Do you like surprises? 🎁</h2>
 
   <button class="yes" onclick="yes()">Yes 😍</button>
@@ -94,11 +97,12 @@
 
 <script>
   let step = 0;
+
   const questions = [
     "Do you like surprises? 🎁",
     "Do you believe in destiny? ✨",
     "Would you go on a cute date with me? 🍕🎬",
-    "Do you like someone who made this page? 😏",
+    "Do you like the person who made this page? 😏",
     "Final question… 💖 Will you be my Valentine?"
   ];
 
@@ -106,6 +110,11 @@
     step++;
     updateProgress();
     createHeart();
+
+    // 🔁 RESET "No" button every time
+    const noBtn = document.querySelector(".no");
+    noBtn.innerText = "No 🙃";
+    noBtn.style.transform = "translate(0, 0)";
 
     if (step < questions.length) {
       document.getElementById("question").innerText = questions[step];
@@ -115,14 +124,15 @@
         <p>You just made my day ❤️</p>
         <p>See you on our date 😘</p>
       `;
-      for (let i = 0; i < 25; i++) createHeart();
+      for (let i = 0; i < 30; i++) createHeart();
     }
   }
 
   function no() {
-    const btn = event.target;
+    const btn = document.querySelector(".no");
     btn.innerText = "Try again 😜";
-    btn.style.transform = `translate(${Math.random()*80 - 40}px, ${Math.random()*40 - 20}px)`;
+    btn.style.transform =
+      `translate(${Math.random()*80 - 40}px, ${Math.random()*40 - 20}px)`;
   }
 
   function updateProgress() {
