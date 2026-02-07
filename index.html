@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valentine Game 💘</title>
+<title>For My Momu 💖</title>
 
 <style>
   body {
@@ -18,7 +18,6 @@
   }
 
   .container {
-    position: relative;
     background: white;
     width: 90%;
     max-width: 420px;
@@ -26,10 +25,19 @@
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    position: relative;
   }
 
   h2 {
     color: #ff3e6c;
+  }
+
+  img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 15px;
   }
 
   button {
@@ -41,7 +49,6 @@
     border: none;
     cursor: pointer;
     display: block;
-    position: relative;
   }
 
   .yes {
@@ -91,67 +98,76 @@
     <div class="bar" id="bar"></div>
   </div>
 
-  <h2 id="question">Do you like surprises? 🎁</h2>
+  <img id="qImage" src="https://i.imgur.com/9yG6KpF.jpg">
 
-  <button class="yes" onclick="yes()">Yes 😍</button>
-  <button class="no" onclick="no()">No 🙃</button>
+  <h2 id="question">Momu, kya tumhe surprises pasand hai? 🎁</h2>
+
+  <button class="yes" onclick="yes()">Haan 💕</button>
+  <button class="no" onclick="no()">Nahi 🙃</button>
 </div>
 
 <script>
 let step = 0;
 
-const questions = [
-  "Do you like surprises? 🎁",
-  "Do you believe in destiny? ✨",
-  "Would you go on a cute date with me? 🍕🎬",
-  "Do you like the person who made this page? 😏",
-  "Final question… 💖 Will you be my Valentine?"
+const data = [
+  {
+    q: "Momu, kya tumhe surprises pasand hai? 🎁",
+    img: "https://i.imgur.com/9yG6KpF.jpg"
+  },
+  {
+    q: "Kya tum destiny aur magic mein believe karti ho? ✨",
+    img: "https://i.imgur.com/FQ7FJ9R.jpg"
+  },
+  {
+    q: "Kya tum Shubham Jain ke saath coffee date pe jaogi? ☕😌",
+    img: "https://i.imgur.com/3ZQ3ZzD.jpg"
+  },
+  {
+    q: "Kya tumhe woh ladka pasand hai jo tumhe ‘Momu’ bulata hai? 😏",
+    img: "https://i.imgur.com/0T9ZkZP.jpg"
+  },
+  {
+    q: "Kya tum us ladke ke saath future imagine kar sakti ho? 💭❤️",
+    img: "https://i.imgur.com/WyGZy6S.jpg"
+  },
+  {
+    q: "Last question Momu… 💖 Kya tum meri Valentine banogi?",
+    img: "https://i.imgur.com/lkQ9GkO.jpg"
+  }
 ];
 
 const noBtn = document.querySelector(".no");
-
-// Store original position of No button
-let noBtnOriginalStyle = {
-  left: noBtn.style.left || "0px",
-  top: noBtn.style.top || "0px",
-  transform: "translate(0, 0)"
-};
 
 function yes() {
   step++;
   updateProgress();
   createHeart();
 
-  // Reset No button text and position
-  resetNoButton();
+  noBtn.innerText = "Nahi 🙃";
+  noBtn.style.transform = "translate(0,0)";
 
-  if (step < questions.length) {
-    document.getElementById("question").innerText = questions[step];
+  if (step < data.length) {
+    document.getElementById("question").innerText = data[step].q;
+    document.getElementById("qImage").src = data[step].img;
   } else {
     document.querySelector(".container").innerHTML = `
-      <h2>YAYYY!!! 💕</h2>
-      <p>You just made my day ❤️</p>
-      <p>See you on our date 😘</p>
+      <h2>YAYYYYY MOMU!!! 💕</h2>
+      <p>Shubham is the happiest person right now ❤️</p>
+      <p>I love you so much 😘</p>
     `;
-    for (let i = 0; i < 30; i++) createHeart();
+    for (let i = 0; i < 40; i++) createHeart();
   }
 }
 
 function no() {
-  noBtn.innerText = "Try again 😜";
-  noBtn.style.transform = 
-    `translate(${Math.random()*80 - 40}px, ${Math.random()*40 - 20}px)`;
-}
-
-// Reset No button text and position
-function resetNoButton() {
-  noBtn.innerText = "No 🙃";
-  noBtn.style.transform = "translate(0, 0)";
+  noBtn.innerText = "Dobara socho 😜";
+  noBtn.style.transform =
+    `translate(${Math.random()*100 - 50}px, ${Math.random()*60 - 30}px)`;
 }
 
 function updateProgress() {
   document.getElementById("bar").style.width =
-    (step / questions.length) * 100 + "%";
+    (step / data.length) * 100 + "%";
 }
 
 function createHeart() {
